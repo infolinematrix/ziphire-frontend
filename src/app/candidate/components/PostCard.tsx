@@ -8,7 +8,10 @@ import {
   MapPinIcon,
   UsersIcon,
   BriefcaseIcon,
+  Send,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import ApplyJob from "./ApplyJob";
 
 type PostStats = {
   likes: number;
@@ -128,31 +131,35 @@ export const PostCard: React.FC<PostCardProps> = ({
       )} */}
 
       {/* Stats */}
-      <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400 text-sm">
+      {/* <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400 text-sm">
         <span>{stats.likes} Likes</span>
         <span>{stats.comments} Comments</span>
         <span>{stats.reposts} Reposts</span>
-      </div>
+      </div> */}
 
       {/* Actions */}
-      <div className="flex justify-around border-t border-gray-200 dark:border-gray-800 pt-4 text-gray-600 dark:text-gray-400 text-sm">
-        <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
-          <ThumbsUp className="w-4 h-4" />
-          <span>Like</span>
-        </button>
-        <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
-          <MessageCircle className="w-4 h-4" />
-          <span>Comment</span>
-        </button>
-        <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
-          <Repeat2 className="w-4 h-4" />
-          <span>Repost</span>
-        </button>
-        <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
-          <Share2 className="w-4 h-4" />
-          <span>Send</span>
-        </button>
+      <div className="flex justify-between border-t border-gray-200 dark:border-gray-800 pt-4 text-gray-600 dark:text-gray-400 text-sm">
+        <div className="flex w-full gap-4">
+          <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
+            <ThumbsUp className="w-4 h-4" />
+            <span>{stats.likes} Likes</span>
+          </button>
+          <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
+            <MessageCircle className="w-4 h-4" />
+            <span>{stats.comments} Applied</span>
+          </button>
+
+          <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
+            <Share2 className="w-4 h-4" />
+            <span>Send</span>
+          </button>
+        </div>
+
+        <div className="flex flex-1">
+          <ApplyJob/>
+        </div>
       </div>
+
     </div>
   );
 };
