@@ -4,10 +4,12 @@ import { PostCard } from './components/PostCard'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { IconGitBranch } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
+import PageContainer from '@/components/layout/page-container'
 
 
 const CandidateHome: NextPage = () => {
     return (
+        
         <div className="flex flex-col">
             <div className="flex flex-1 gap-4">
                 {/* Left Sidebar - User Info */}
@@ -65,7 +67,7 @@ const CandidateHome: NextPage = () => {
 
                 {/* Main Content */}
                 <main className="my-5 overflow-y-auto ">
-                    <ScrollArea className="h-screen ">
+                    <ScrollArea className='h-[calc(100dvh-52px)]'>
                     {Array.from({ length: 10 }).map((_, i) => (
 
                         <PostCard
@@ -110,6 +112,7 @@ const CandidateHome: NextPage = () => {
                 </aside>
             </div>
         </div>
+        
     )
 }
 

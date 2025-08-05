@@ -30,7 +30,7 @@ export default async function DashboardLayout({
           <div className="w-full sm:w-11/12 md:w-4/5 lg:w-3/4 max-w-8xl mx-auto">
 
             {/* Fixed Inner Header */}
-            <StickyJobSearch/>
+            {/* <StickyJobSearch/> */}
             
             <div className="mt-4">
               {children}

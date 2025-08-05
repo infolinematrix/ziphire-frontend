@@ -16,7 +16,7 @@ export default async function Page() {
   const isAuth = await isAuthenticated(); // Simulating authentication check
 
   // const userId = true;
-  console.log("-------isAuth", isAuth);
+  console.log("-------isLoggedIn", isAuth);
 
 
 

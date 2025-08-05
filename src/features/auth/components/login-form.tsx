@@ -9,10 +9,9 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { setAuthCookies } from "@/lib/auth"
-import api from '@/lib/axios'
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
@@ -28,6 +27,10 @@ export function LoginForm({
     formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+    email: "user@example.com",
+    password: "Password@123",
+  },
   })
 
   const [loginError, setLoginError] = useState<string | null>(null)
