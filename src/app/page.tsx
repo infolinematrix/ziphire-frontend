@@ -5,19 +5,22 @@ import { redirect } from 'next/navigation';
 export default async function Page() {
 
   const isAuth = await isAuthenticated(); // Simulating authentication check
-  // console.log("-------isAuth", isAuth);
+
 
 
   if (!isAuth) {
     return redirect('/auth/sign-in');
   } else {
-    // const me = await currentUser()
-    // if(me['user_type'] == 'developer'){
-    //   redirect('/candidate');
-    // }
-    // if(me['user_type'] == 'client'){
-    //   redirect('/client');
-    // }
+
+    const { user } = await currentUser();
+    if (!user) return redirect('/auth/sign-in');
+
+    if (user.user_type == 'candidate') {
+      redirect('/candidate');
+    }
+    if (user.user_type == 'client') {
+      redirect('/client');
+    }
 
     redirect('/candidate');
   }

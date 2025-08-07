@@ -1,20 +1,12 @@
 // lib/hooks/useUser.ts
-'use client';
+"use client";
 
-import { getToken } from '@/lib/auth';
-
-import { useEffect, useState } from 'react';
-
-type User = {
-  id: string;
-  uuid:string,
-  username: string;
-  email: string;
-  user_type?: string;
-};
+import { getToken, setCurrentUser } from "@/lib/auth";
+import { UserType } from "@/types/user";
+import { useEffect, useState } from "react";
 
 export function useUser() {
-  const [user, setUser] = useState<null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -30,14 +22,15 @@ export function useUser() {
           credentials: "include",
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
 
         if (!res.ok) throw new Error("Unauthorized");
-        
         const data = await res.json();
-        setUser(data.user || data); // based on API shape
+
+        setUser(data || null); // based on API shape
+        setCurrentUser(data);
       } catch (err: any) {
         setUser(null);
         setError(err);

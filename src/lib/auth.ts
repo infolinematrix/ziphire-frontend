@@ -44,7 +44,7 @@ export const getRefreshToken = async () => {
 };
 
 export const logout = async () => {
-  debugger
+  debugger;
   const cookieStore = await cookies();
   cookieStore.delete("token");
   cookieStore.delete("refreshToken");
@@ -55,19 +55,49 @@ export const logout = async () => {
 
 export const currentUser = async () => {
   const cookieStore = await cookies();
-  const api = await createAxiosInstance();
-  const res = await api.get("/users/me");
+  const rawUser = cookieStore.get("currentUser")?.value;
 
-  if (res.status == 200) {
-    cookieStore.set("currentUser", res.data, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 *365,
-      path: "/",
-    });
-    return res.data;
+  let user = null;
+  debugger;
+  try {
+    if (rawUser) {
+      user = JSON.parse(rawUser);
+    }
+  } catch (error) {
+    console.error("Error parsing currentUser cookie:", error);
   }
 
-  return false;
+  return { user };
 };
+
+export const setCurrentUser = async (user: any) => {
+  const cookieStore = await cookies();
+  debugger;
+  cookieStore.set("currentUser", JSON.stringify(user), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 24 * 365,
+    path: "/",
+  });
+};
+
+// export const me = async () => {
+//   const { user } = await currentUser();
+//   const cookieStore = await cookies();
+//   const api = await createAxiosInstance();
+//   const res = await api.get("/users/me");
+
+//   if (res.status == 200) {
+//     cookieStore.set("currentUser", res.data, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       sameSite: "strict",
+//       maxAge: 60 * 60 * 24 * 365,
+//       path: "/",
+//     });
+//     return res.data;
+//   }
+
+//   return false;
+// };

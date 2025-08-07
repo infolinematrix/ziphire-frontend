@@ -20,18 +20,20 @@ type PostStats = {
 };
 
 type PostCardProps = {
-  user: {
+  client: {
     name: string;
     avatar: string;
     role: string;
   };
+  job_id: number;
+  title: string;
   content: string;
   hashtags?: string[];
   media?: string;
-  stats: {
-    likes: number;
-    comments: number;
-    reposts: number;
+  stats?: {
+    likes?: number;
+    comments?: number;
+    reposts?: number;
   };
   time: string;
   edited?: boolean;
@@ -41,7 +43,9 @@ type PostCardProps = {
 };
 
 export const PostCard: React.FC<PostCardProps> = ({
-  user: { name, avatar, role },
+  client: { name, avatar, role },
+  job_id,
+  title,
   time,
   edited,
   content,
@@ -75,8 +79,8 @@ export const PostCard: React.FC<PostCardProps> = ({
 
 
       {/* Title */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-        Software Engineer 5+ Years Experience
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
+        {title}
       </h3>
 
       {/* Content */}
@@ -142,11 +146,11 @@ export const PostCard: React.FC<PostCardProps> = ({
         <div className="flex w-full gap-4">
           <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
             <ThumbsUp className="w-4 h-4" />
-            <span>{stats.likes} Likes</span>
+            <span>{stats?.likes} Likes</span>
           </button>
           <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
             <MessageCircle className="w-4 h-4" />
-            <span>{stats.comments} Applied</span>
+            <span>{stats?.comments} Applied</span>
           </button>
 
           <button className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400">
@@ -156,7 +160,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         </div>
 
         <div className="flex flex-1">
-          <ApplyJob/>
+          <ApplyJob jobId={job_id} jobTitle={title} jobDescription={content} />
         </div>
       </div>
 

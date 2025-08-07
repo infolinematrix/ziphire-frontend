@@ -27,7 +27,13 @@ const resumes = [
     { id: 3, name: "Resume - Designer.pdf" },
 ]
 
-export default function ApplyJob() {
+interface Props {
+    jobId: number
+    jobTitle: string,
+    jobDescription: string,
+}
+
+export default function ApplyJob({ jobId, jobTitle, jobDescription }: Props) {
     const [open, setOpen] = useState(false)
     const [step, setStep] = useState(1)
     const [agreed, setAgreed] = useState(false)
@@ -71,6 +77,9 @@ export default function ApplyJob() {
             case 1:
                 return (
                     <JobDescriptionStep
+                        jobId={jobId}
+                        jobTitle={jobTitle}
+                        jobDescription={jobDescription}
                         agreed={agreed}
                         setAgreed={setAgreed}
                         onContinue={() => setStep(2)}
@@ -129,7 +138,7 @@ export default function ApplyJob() {
                 <ScrollArea className='h-[calc(100dvh-52px)]'>
                     <SheetHeader>
                         <SheetTitle>
-                            Job Application <span className='px-4 text-muted-foreground text-sm'>#2344-RD4843-R2425</span>
+                            Job Application <span className='px-4 text-muted-foreground text-sm'>#{jobId}</span>
                         </SheetTitle>
                         <SheetDescription>
                             Complete the steps to apply for this job.

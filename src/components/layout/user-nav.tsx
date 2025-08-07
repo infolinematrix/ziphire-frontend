@@ -10,19 +10,18 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
-// import { SignOutButton, useUser } from '@clerk/nextjs';
 import { redirect, useRouter } from 'next/navigation';
 import SignOutButton from '../sign-out-button';
 import { useUser } from '@/hooks/use-user';
-import { useEffect } from 'react';
+
 
 
 export function UserNav() {
-
+  const router = useRouter();
   const { user } = useUser();
 
-  const router = useRouter();
   if (user) {
+
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -62,5 +61,7 @@ export function UserNav() {
         </DropdownMenuContent>
       </DropdownMenu>
     );
+  } else {
+    return <div>...</div>;
   }
 }

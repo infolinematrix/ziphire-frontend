@@ -1,25 +1,48 @@
+
+
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { JobApplicationService } from "../services/JobApplicationService"
+import { useEffect, useState } from "react"
 
 interface Props {
+  jobId: number
+  jobTitle: string,
+  jobDescription: string,
   agreed: boolean
   setAgreed: (v: boolean) => void
   onContinue: () => void
 }
 
-export default function JobDescriptionStep({ agreed, setAgreed, onContinue }: Props) {
+export default function JobDescriptionStep({ jobId, jobTitle, jobDescription, agreed, setAgreed, onContinue }: Props) {
+
+  const [job, setJob] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadJob() {
+      setLoading(true)
+      try {
+        const data = await JobApplicationService.findJob(jobId)
+        setJob(data)
+      } catch (err: any) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadJob()
+  }, [jobId])
+
+
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold text-lg mb-1">Frontend Developer</h3>
-      <p className="text-sm mb-2">
-        We are seeking a skilled Frontend Developer to join our dynamic team. You will be responsible for building and maintaining user interfaces using React, TypeScript, and modern UI frameworks.
+      <h3 className="font-semibold text-lg mb-0">{jobTitle}</h3>
+      <p className="text-sm mb-4">
+        {jobDescription}
       </p>
-      <ul className="list-disc list-inside text-sm mb-2">
-        <li>Develop responsive web applications using React and TypeScript</li>
-        <li>Work closely with UI/UX designers to implement designs</li>
-        <li>Optimize applications for maximum speed and scalability</li>
-        <li>Collaborate with backend developers and participate in code reviews</li>
-      </ul>
+
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
