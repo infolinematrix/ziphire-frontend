@@ -18,21 +18,21 @@ export const CreateJobSchema = z
       "Internship",
     ]),
     workLocationType: z.enum(["Remote", "On-site", "Hybrid"]),
-    location: z
-      .string()
-      .optional()
-      .superRefine((val, ctx) => {
-        const parent = ctx.parent;
-        if (
-          parent.workLocationType !== "Remote" &&
-          (!val || val.trim() === "")
-        ) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Location is required for On-site or Hybrid jobs",
-          });
-        }
-      }),
+    // location: z
+    //   .string()
+    //   .optional()
+    //   .superRefine((val, ctx) => {
+    //     const parent = ctx.parent;
+    //     if (
+    //       parent.workLocationType !== "Remote" &&
+    //       (!val || val.trim() === "")
+    //     ) {
+    //       ctx.addIssue({
+    //         code: z.ZodIssueCode.custom,
+    //         message: "Location is required for On-site or Hybrid jobs",
+    //       });
+    //     }
+    //   }),
     salaryMin: z
       .number()
       .int()
@@ -76,12 +76,9 @@ export const CreateJobSchema = z
 
     // 2. Company Info
     companyName: z.string().min(2, "Company name is required"),
-    companyLogo: z.string().url("Company logo must be a valid URL").optional(),
+    companyLogo: z.url("Company logo must be a valid URL").optional(),
     companyDescription: z.string().optional(),
-    companyWebsite: z
-      .string()
-      .url("Company website must be a valid URL")
-      .optional(),
+    companyWebsite: z.url("Company website must be a valid URL").optional(),
 
     // 3. Internal
     hiringManagerNotes: z.string().optional(),

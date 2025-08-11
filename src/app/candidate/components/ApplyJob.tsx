@@ -36,9 +36,9 @@ interface Props {
 export default function ApplyJob({ jobId, jobTitle, jobDescription }: Props) {
     const [open, setOpen] = useState(false)
     const [step, setStep] = useState(1)
+    const [coverLetter, setCoverLetter] = useState('')
     const [agreed, setAgreed] = useState(false)
     const [aiAnswers, setAiAnswers] = useState<{ [key: string]: string }>({})
-    const [coverLetter, setCoverLetter] = useState('')
     const [selectedResume, setSelectedResume] = useState<number | null>(null)
 
     // Example AI questions
@@ -80,26 +80,25 @@ export default function ApplyJob({ jobId, jobTitle, jobDescription }: Props) {
                         jobId={jobId}
                         jobTitle={jobTitle}
                         jobDescription={jobDescription}
-                        agreed={agreed}
-                        setAgreed={setAgreed}
                         onContinue={() => setStep(2)}
                     />
                 )
             case 2:
+                return (
+                    <CoverLetterStep
+                        coverLetter={coverLetter}
+                        setCoverLetter={setCoverLetter}
+                        onContinue={() => setStep(4)}
+                    />
+                )
+
+            case 3:
                 return (
                     <AIQuestionsStep
                         aiQuestions={aiQuestions}
                         aiAnswers={aiAnswers}
                         setAiAnswers={setAiAnswers}
                         onContinue={() => setStep(3)}
-                    />
-                )
-            case 3:
-                return (
-                    <CoverLetterStep
-                        coverLetter={coverLetter}
-                        setCoverLetter={setCoverLetter}
-                        onContinue={() => setStep(4)}
                     />
                 )
             case 4:

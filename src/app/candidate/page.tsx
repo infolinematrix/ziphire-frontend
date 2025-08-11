@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import { PostCard } from './components/PostCard'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { JobService } from './services/JobService'
+import Link from 'next/link'
 
 
 const CandidateHome: NextPage = async () => {
@@ -68,7 +69,10 @@ const CandidateHome: NextPage = async () => {
 
                         <li><a href="#">Profile</a></li>
                         <li><a href="#">Change Password</a></li>
-                        <li><a href="#">Upload Resume</a></li>
+                        <li><Link href={'/candidate/resume'}>
+                            My Resume
+                        </Link>
+                        </li>
                         <li><a href="#">Notifications</a></li>
                         <li><a href="#">Membership</a></li>
                         <li><a href="#">Customer Care</a></li>
