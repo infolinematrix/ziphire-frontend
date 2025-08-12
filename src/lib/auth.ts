@@ -2,10 +2,46 @@
 
 import { cookies } from "next/headers";
 import createAxiosInstance from "./axios";
+import z, { email } from "zod";
+
+// export const handleLogin = async (credentials: any) => {
+//   // 1. Authenticate and get tokens
+//   debugger;
+//   const { token, refreshToken } = await loginAndGetToken({
+//     email: credentials.email,
+//     password: credentials.password,
+//   });
+
+//   // 2. Set auth cookies
+//   await setAuthCookies(token, refreshToken);
+
+//   // 3. Call the me function to fetch user data and set the currentUser cookie
+//   await me();
+
+//   // 4. Return success or error status
+//   return { success: true };
+// };
+
+// export const loginAndGetToken = async (credentials: any) => {
+//   try {
+//     const api = await createAxiosInstance();
+//     const res = await api.post("/v1/users/login", credentials);
+
+//     if (res.status === 200) {
+//       return {
+//         token: res.data.access_token,
+//         refreshToken: res.data.refresh_token,
+//       };
+//     } else {
+//       throw new Error("Invalid email or password");
+//     }
+//   } catch (error) {
+//     throw new Error("Login failed. Please check your credentials.");
+//   }
+// };
 
 export const setAuthCookies = async (token: string, refreshToken: string) => {
   const cookieStore = await cookies();
-
   cookieStore.set("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -44,11 +80,11 @@ export const getRefreshToken = async () => {
 };
 
 export const logout = async () => {
-  debugger;
   const cookieStore = await cookies();
   cookieStore.delete("token");
   cookieStore.delete("refreshToken");
   cookieStore.delete("currentUser");
+
   // Optionally redirect to login page or home page
   // window.location.href = '/auth/sign-in';
 };
@@ -56,9 +92,8 @@ export const logout = async () => {
 export const currentUser = async () => {
   const cookieStore = await cookies();
   const rawUser = cookieStore.get("currentUser")?.value;
-
   let user = null;
-  debugger;
+
   try {
     if (rawUser) {
       user = JSON.parse(rawUser);
@@ -72,7 +107,7 @@ export const currentUser = async () => {
 
 export const setCurrentUser = async (user: any) => {
   const cookieStore = await cookies();
-  debugger;
+
   cookieStore.set("currentUser", JSON.stringify(user), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -82,22 +117,24 @@ export const setCurrentUser = async (user: any) => {
   });
 };
 
-// export const me = async () => {
-//   const { user } = await currentUser();
-//   const cookieStore = await cookies();
-//   const api = await createAxiosInstance();
-//   const res = await api.get("/users/me");
+export const me = async () => {
+  try {
+    const token = await getToken(); // Get the token from your existing auth utility
+    if (!token) {
+      console.error("No authentication token found.");
+      return false;
+    }
 
-//   if (res.status == 200) {
-//     cookieStore.set("currentUser", res.data, {
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === "production",
-//       sameSite: "strict",
-//       maxAge: 60 * 60 * 24 * 365,
-//       path: "/",
-//     });
-//     return res.data;
-//   }
+    const api = await createAxiosInstance();
+    const res = await api.get("/users/me");
 
-//   return false;
-// };
+    if (res.status === 200) {
+      return res.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch user data:", error);
+  }
+
+  // Return false on any failure
+  return false;
+};

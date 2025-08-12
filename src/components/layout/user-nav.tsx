@@ -14,11 +14,12 @@ import { redirect, useRouter } from 'next/navigation';
 import SignOutButton from '../sign-out-button';
 import { useUser } from '@/hooks/use-user';
 
+interface Props {
+  user: any
+}
 
-
-export function UserNav() {
+export function UserNav({ user }: Props) {
   const router = useRouter();
-  const { user } = useUser();
 
   if (user) {
 

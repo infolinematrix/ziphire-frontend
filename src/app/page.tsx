@@ -1,10 +1,12 @@
-import { currentUser, isAuthenticated } from '@/lib/auth';
+import { currentUser, isAuthenticated, me, setCurrentUser } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export default async function Page() {
 
+
   const isAuth = await isAuthenticated(); // Simulating authentication check
+  console.log("is Authenticated", isAuth);
 
 
 
@@ -13,15 +15,15 @@ export default async function Page() {
   } else {
 
     const { user } = await currentUser();
-    if (!user) return redirect('/auth/sign-in');
+    console.log("------------------------user", user);
 
-    if (user.user_type == 'candidate') {
+    if (user && user.user_type == 'candidate') {
       redirect('/candidate');
     }
-    if (user.user_type == 'client') {
+    if (user && user.user_type == 'client') {
       redirect('/client');
     }
 
-    redirect('/candidate');
+    // redirect('/candidate');
   }
 }

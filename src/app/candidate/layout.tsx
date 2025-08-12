@@ -33,9 +33,7 @@ export default async function CandidateLayout({
         <SidebarProvider defaultOpen={defaultOpen} >
           <AppSidebar />
           <SidebarInset>
-            <Header />
-
-
+            <Header user={user} />
             {/* page main content */}
             <div className="mt-5 w-full sm:w-11/12 md:w-4/5 lg:w-3/4 max-w-8xl mx-auto  px-4 sm:px-6 lg:px-8">
               {/* Fixed Inner Header */}

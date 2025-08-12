@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { setAuthCookies } from "@/lib/auth"
+import { me, setAuthCookies, setCurrentUser } from "@/lib/auth"
 
 const loginSchema = z.object({
   email: z.email(),
@@ -28,15 +28,15 @@ export function LoginForm({
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-    email: "user@example.com",
-    password: "Password@123",
-  },
+      email: "user@example.com",
+      password: "Password@123",
+    },
   })
 
   const [loginError, setLoginError] = useState<string | null>(null)
 
   const onSubmit = async (data: LoginSchema) => {
-
+    debugger;
     setLoginError(null)
     try {
       const res = await fetch("http://localhost:8000/v1/users/login", {
@@ -51,15 +51,16 @@ export function LoginForm({
       if (!res.ok) {
         throw new Error("Invalid email or password")
       }
-      
+
       const responseData = await res.json()
       console.log("Login successful:", responseData)
-      
+
       // Store token in localStorage or context
       await setAuthCookies(responseData.access_token, responseData.refresh_token);
 
-      
-
+      // Call the me function to fetch user data and set the currentUser cookie
+      const user = await me();
+      await setCurrentUser(user)
 
       // Redirect or refresh page
       window.location.href = "/"

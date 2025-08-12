@@ -12,10 +12,10 @@ import { NotificationSocket } from '../NotificationSocket';
 import Image from 'next/image';
 import ChatButton from '@/features/chat/ChatButton';
 
-
-export default function Header() {
-
-  const token = "your-user-token";
+interface Props {
+  user: any
+}
+export default function Header({ user }: Props) {
 
   return (
     <header className='flex  h-18 bg-background shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-18'>
@@ -39,19 +39,19 @@ export default function Header() {
           {/* <div className='hidden md:flex ml-2'>
           <SearchInput />
         </div> */}
-        <UserNav />
-        
+          <UserNav user={user} />
+
           <ChatButton />
           {/* <Separator orientation='vertical' className='h-4' /> */}
-          <NotificationSocket token={token} />
+          {/* <NotificationSocket token={token} /> */}
 
         </div>
 
 
-        
+
         <ModeToggle />
         <ThemeSelector />
-        
+
       </div>
     </header>
   );

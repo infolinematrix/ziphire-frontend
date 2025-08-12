@@ -11,23 +11,11 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   let stars = 3000; // Default value
-
-  // const { userId } = await auth();
   const isAuth = await isAuthenticated(); // Simulating authentication check
 
-  // const userId = true;
-  console.log("-------isLoggedIn", isAuth);
+  // if (isAuth == true) {
+  //   return redirect('/');
+  // }
 
-
-
-  if (isAuth) {
-    return redirect('/');
-  }
-
-  try {
-    // Something like this to fetch GitHub stars
-  } catch (error) {
-    // Error fetching GitHub stars, using default value
-  }
   return <SignInViewPage stars={stars} />;
 }
