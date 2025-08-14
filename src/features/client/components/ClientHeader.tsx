@@ -14,7 +14,11 @@ import { DesktopNavMenu } from './DesktopNavMenu'
 import Link from 'next/link'
 import { MobileDropdown } from './MobileDropdown'
 
-export default function ClientHeader() {
+interface Props {
+    user: any
+}
+
+export default function ClientHeader({ user }: Props) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const token = 'your-user-token'
 
@@ -38,7 +42,7 @@ export default function ClientHeader() {
 
                 {/* Mobile Hamburger */}
                 <div className="flex items-center justify-end w-full gap-4 md:hidden ml-auto mr-6">
-                    <UserNav />
+                    <UserNav user={user} />
                     <ChatButton />
                     <NotificationSocket token={token} />
                     <ModeToggle />
@@ -55,7 +59,7 @@ export default function ClientHeader() {
 
 
                 {/* Right: Desktop Navigation */}
-                <DesktopNavMenu token={token} navLinks={navLinks} />
+                <DesktopNavMenu token={token} navLinks={navLinks} user={user} />
 
             </div>
 

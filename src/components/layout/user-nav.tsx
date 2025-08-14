@@ -23,6 +23,7 @@ export function UserNav({ user }: Props) {
 
   if (user) {
 
+
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

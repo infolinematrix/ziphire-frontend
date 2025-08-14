@@ -13,9 +13,7 @@ export default async function Page() {
   if (!isAuth) {
     return redirect('/auth/sign-in');
   } else {
-
     const { user } = await currentUser();
-    console.log("------------------------user", user);
 
     if (user && user.user_type == 'candidate') {
       redirect('/candidate');

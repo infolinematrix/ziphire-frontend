@@ -14,11 +14,12 @@ interface NavLinkItem {
 }
 
 interface Props {
+    user: any,
     token: string
     navLinks: NavLinkItem[]
 }
 
-export function DesktopNavMenu({ token, navLinks }: Props) {
+export function DesktopNavMenu({ token, navLinks, user }: Props) {
     return (
         <div className="hidden sm:flex items-center gap-6">
             {navLinks.map((link) => (
@@ -31,7 +32,7 @@ export function DesktopNavMenu({ token, navLinks }: Props) {
                 </Link>
             ))}
             <Separator orientation="vertical" className="h-6" />
-            <UserNav />
+            <UserNav user={user} />
             <ChatButton />
             <NotificationSocket token={token} />
             <ModeToggle />
